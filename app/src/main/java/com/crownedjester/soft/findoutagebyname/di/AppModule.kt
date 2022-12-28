@@ -1,9 +1,12 @@
 package com.crownedjester.soft.findoutagebyname.di
 
+import android.content.Context
+import com.crownedjester.soft.findoutagebyname.common.Client
 import com.crownedjester.soft.findoutagebyname.data.data_source.AgeByNameApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -15,10 +18,10 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun createRetrofit(): Retrofit =
+    fun createRetrofit(@ApplicationContext context: Context): Retrofit =
         Retrofit.Builder()
             .baseUrl(AgeByNameApi.BASE_URL)
-            .client(AgeByNameApi.createClient())
+            .client(Client.createClient(context))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
