@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
             whenStarted {
                 eventHandlerViewModel.uiEvent.collect { uiEvent ->
                     when (uiEvent) {
-                        UiEvent.OnBack -> {
+                        is UiEvent.OnBack -> {
                             navController.navigateUp()
                         }
 
