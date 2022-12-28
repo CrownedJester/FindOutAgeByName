@@ -1,7 +1,8 @@
-package com.crownedjester.soft.findoutagebyname
+package com.crownedjester.soft.findoutagebyname.representation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.crownedjester.soft.findoutagebyname.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
