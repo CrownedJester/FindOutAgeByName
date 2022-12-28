@@ -3,4 +3,9 @@
     <string name="dashboard_hint">Введите имя для предсказания возраста</string>
     <string name="search_bar_hint">Поиск</string>
     <string name="favorite_header">Избранное</string>
+    <string name="share_btn_text">Добавить в избранное</string>
+    <string name="button_share_description">Поделиться результатом</string>
+    <string name="dialog_header_text">Удалить имя</string>
+    <string name="deletion_button_text">Удалить</string>
+    <string name="dialog_message">Вы уверены, что хотите удалить выбранное имя из избранных?</string>
 </resources>

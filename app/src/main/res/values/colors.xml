@@ -15,4 +15,5 @@
     <color name="background_rounded_corner">#f8f8f8</color>
 
     <color name="nav_view_bg">#EFEFEF</color>
+    <color name="tv_result_text">#484848</color>
 </resources>

@@ -6,24 +6,28 @@
     android:layout_marginBottom="10dp">
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_view_name"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
         android:background="@drawable/shape_text_view_bg"
-        android:elevation="1dp"
+        android:fontFamily="@font/rubik_medium_500"
         android:gravity="center_vertical|start"
         android:padding="16dp"
         android:text="Анастасия"
         android:textColor="@color/rhythm"
-        android:textSize="16sp"
+        android:textSize="@dimen/regular_text_font_size"
         android:textStyle="bold"
         tools:ignore="HardcodedText" />
 
     <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/checkbox_item_favorite"
+        style="@style/CheckboxFavorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:background="@drawable/selector_checkbox"
-        android:elevation="1dp" />
+        android:layout_gravity="center_vertical|end"
+        android:checked="false"
+        android:elevation="1dp"
+        android:gravity="center|start" />
 
 </FrameLayout>
