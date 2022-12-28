@@ -8,4 +8,5 @@
     <string name="dialog_header_text">Удалить имя</string>
     <string name="deletion_button_text">Удалить</string>
     <string name="dialog_message">Вы уверены, что хотите удалить выбранное имя из избранных?</string>
+    <string name="toast_empty_search_query">Поле ввода не может быть пустым!</string>
 </resources>
