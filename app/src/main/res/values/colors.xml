@@ -19,4 +19,5 @@
     <color name="nav_view_bg">#EFEFEF</color>
     <color name="nav_view_color_selected">#555E65</color>
     <color name="nav_view_color_unselected">#999999</color>
+    <color name="dialog_guidelines">#ececec</color>
 </resources>

@@ -11,4 +11,7 @@
     <string name="toast_empty_search_query">Поле ввода не может быть пустым!</string>
     <string name="nav_home_item_text">Главная</string>
     <string name="nav_favorite_item_text">Избранное</string>
+    <string name="dialog_confirm_text">Да</string>
+    <string name="dialog_cancel_text">Нет</string>
+    <string name="no">Нет</string>
 </resources>
