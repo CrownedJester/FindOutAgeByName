@@ -15,7 +15,6 @@
         android:text="@string/dialog_header_text"
         android:textColor="@color/gunmetal"
         android:textSize="@dimen/header_text_size"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -74,6 +73,7 @@
         android:id="@+id/vertical_view"
         android:layout_width="1dp"
         android:layout_height="0dp"
+        android:background="@color/dialog_guidelines"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
