@@ -1,5 +1,6 @@
 package com.crownedjester.soft.findoutagebyname.representation.fragment_dashboard.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -32,8 +33,10 @@ class DashboardViewModel @Inject constructor(
         viewModelScope.launch {
             savedStateHandle.getStateFlow(BundlePrefs.NAME_KEY, NAME_INITIAL_VALUE).let {
                 it.collectLatest { name ->
-                    if (name != NAME_INITIAL_VALUE)
+                    if (name != NAME_INITIAL_VALUE && name.isNotEmpty()) {
+                        Log.i("ViewModel", name.isEmpty().toString())
                         getAgeByName(name)
+                    }
                 }
             }
         }
@@ -46,7 +49,7 @@ class DashboardViewModel @Inject constructor(
             }
 
             is DashboardEvent.OnSubmitSearchQuery -> {
-                getAgeByName(event.query)
+//                getAgeByName(event.query)
             }
         }
     }
