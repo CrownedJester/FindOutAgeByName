@@ -38,11 +38,21 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         is UiEvent.OnNavigate<*> -> {
-                            navController.navigate(uiEvent.routeId)
+                            uiEvent.apply {
+                                if (key.isNullOrEmpty() && arg == null) {
+                                    navController.navigate(routeId)
+                                } else {
+                                    //todo nav with args
+                                }
+                            }
                         }
 
                         is UiEvent.ShowToast -> {
-                            Toast.makeText(this@MainActivity, uiEvent.message, Toast.LENGTH_LONG)
+                            Toast.makeText(
+                                this@MainActivity,
+                                uiEvent.message,
+                                Toast.LENGTH_LONG
+                            )
                                 .show()
                         }
                     }
