@@ -7,10 +7,14 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.crownedjester.soft.findoutagebyname.common.Response
+import com.crownedjester.soft.findoutagebyname.domain.model.toFavoriteName
 import com.crownedjester.soft.findoutagebyname.domain.use_cases.GetAgeByName
+import com.crownedjester.soft.findoutagebyname.features.use_cases.AddName
 import com.crownedjester.soft.findoutagebyname.representation.common.bundle.BundlePrefs
 import com.crownedjester.soft.findoutagebyname.representation.fragment_dashboard.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -23,6 +27,7 @@ private const val NAME_INITIAL_VALUE = "-1"
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
     private val getAgeByNameUseCase: GetAgeByName,
+    private val addNameUseCase: AddName,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -45,11 +50,15 @@ class DashboardViewModel @Inject constructor(
     fun onEvent(event: DashboardEvent) {
         when (event) {
             is DashboardEvent.OnAddToFavorite -> {
-                //todo not yet implemented
+                viewModelScope.launch(Dispatchers.IO + Job()) {
+                    addNameUseCase(
+                        event.personData.toFavoriteName()
+                    )
+                }
             }
 
             is DashboardEvent.OnSubmitSearchQuery -> {
-//                getAgeByName(event.query)
+                getAgeByName(event.query)
             }
         }
     }

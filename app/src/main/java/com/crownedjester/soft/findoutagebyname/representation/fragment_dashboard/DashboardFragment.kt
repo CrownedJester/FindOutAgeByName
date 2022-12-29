@@ -14,7 +14,6 @@ import com.crownedjester.soft.findoutagebyname.representation.fragment_dashboard
 import com.crownedjester.soft.findoutagebyname.representation.fragment_dashboard.viewmodel.DashboardViewModel
 import com.crownedjester.soft.findoutagebyname.representation.shared_components.MainEventHandlerViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 private const val visible = View.VISIBLE
 private const val invisible = View.INVISIBLE
@@ -41,7 +40,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
         binding.apply {
 
-            searchView.query
 
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
@@ -55,14 +53,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                     return false
                 }
 
-                override fun onQueryTextChange(newText: String?): Boolean {
-
-                    if (newText.isNullOrBlank()) {
-                        this.onQueryTextSubmit("")
-                    }
-
-                    return true
-                }
+                override fun onQueryTextChange(newText: String?): Boolean = false
 
             })
         }
@@ -70,7 +61,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     }
 
     private fun onQuerySubmitted() {
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenResumed {
             dashboardViewModel.ageLiveData.observe(viewLifecycleOwner) { uiState ->
                 when {
                     uiState.isLoading -> {
@@ -96,6 +87,12 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                             textViewResult.visibility = visible
 
                             textViewResult.text = uiState.data.age.toString()
+
+                            buttonAddToFavorite.setOnClickListener {
+                                dashboardViewModel.onEvent(
+                                    DashboardEvent.OnAddToFavorite(uiState.data)
+                                )
+                            }
                         }
                     }
 
