@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface FavoriteNameDao {
 
     @Query("select * from favorite_name_table")
-    fun getAllNames(): Flow<FavoriteName>
+    fun getAllNames(): Flow<List<FavoriteName>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addFavoriteName(name: FavoriteName)

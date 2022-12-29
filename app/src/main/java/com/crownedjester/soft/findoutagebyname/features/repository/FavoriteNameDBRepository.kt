@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface FavoriteNameDBRepository {
 
-    fun getAllNames(): Flow<FavoriteName>
+    fun getAllNames(): Flow<List<FavoriteName>>
 
     suspend fun addFavoriteName(name: FavoriteName)
 

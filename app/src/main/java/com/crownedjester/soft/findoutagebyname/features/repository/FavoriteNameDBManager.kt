@@ -8,7 +8,7 @@ import javax.inject.Inject
 class FavoriteNameDBManager @Inject constructor(private val dao: FavoriteNameDao) :
     FavoriteNameDBRepository {
 
-    override fun getAllNames(): Flow<FavoriteName> = dao.getAllNames()
+    override fun getAllNames(): Flow<List<FavoriteName>> = dao.getAllNames()
 
     override suspend fun addFavoriteName(name: FavoriteName) =
         dao.addFavoriteName(name)
