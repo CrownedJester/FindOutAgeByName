@@ -5,7 +5,9 @@ import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
 sealed class UiEvent {
-    data class OnNavigate<T>(val routeId: Int, val arg: T? = null) : UiEvent()
+    data class OnNavigate<T>(val routeId: Int, val key: String? = null, val arg: T? = null) :
+        UiEvent()
+
     data class ShowToast(val message: String) : UiEvent()
     object OnBack : UiEvent()
 }
