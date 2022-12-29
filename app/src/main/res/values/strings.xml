@@ -14,4 +14,5 @@
     <string name="dialog_confirm_text">Да</string>
     <string name="dialog_cancel_text">Нет</string>
     <string name="no">Нет</string>
+    <string name="toast_on_delete">Записи успешно удалены!</string>
 </resources>
