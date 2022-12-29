@@ -2,7 +2,6 @@ package com.crownedjester.soft.findoutagebyname.di
 
 import android.content.Context
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.crownedjester.soft.findoutagebyname.features.data_source.FavoriteNameDao
 import com.crownedjester.soft.findoutagebyname.features.data_source.FavoriteNameDatabase
 import com.crownedjester.soft.findoutagebyname.features.repository.FavoriteNameDBManager
@@ -23,7 +22,7 @@ object LocalDataModule {
 
     @Provides
     @Singleton
-    fun provideFavoriteNamesDatabase(@ApplicationContext context: Context): RoomDatabase =
+    fun provideFavoriteNamesDatabase(@ApplicationContext context: Context) =
         Room.databaseBuilder(
             context,
             FavoriteNameDatabase::class.java,
