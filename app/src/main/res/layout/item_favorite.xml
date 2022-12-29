@@ -17,7 +17,6 @@
         android:text="Анастасия"
         android:textColor="@color/rhythm"
         android:textSize="@dimen/regular_text_font_size"
-        android:textStyle="bold"
         tools:ignore="HardcodedText" />
 
     <com.google.android.material.checkbox.MaterialCheckBox

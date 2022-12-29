@@ -15,7 +15,6 @@
         android:text="@string/favorite_header"
         android:textColor="@color/gunmetal"
         android:textSize="@dimen/header_text_size"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

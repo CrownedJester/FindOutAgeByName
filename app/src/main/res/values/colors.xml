@@ -14,6 +14,9 @@
 
     <color name="background_rounded_corner">#f8f8f8</color>
 
-    <color name="nav_view_bg">#EFEFEF</color>
     <color name="tv_result_text">#484848</color>
+
+    <color name="nav_view_bg">#EFEFEF</color>
+    <color name="nav_view_color_selected">#555E65</color>
+    <color name="nav_view_color_unselected">#999999</color>
 </resources>
