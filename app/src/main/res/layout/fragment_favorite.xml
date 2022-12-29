@@ -36,7 +36,6 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="@dimen/margin_bottom_action_button"
         android:background="@drawable/shape_button_result"
-        android:backgroundTint="@color/tea_green"
         android:fontFamily="@font/abhayalibre_bold_700"
         android:paddingHorizontal="@dimen/padding_horizontal_action_button"
         android:paddingVertical="@dimen/padding_vertical_action_button"
