@@ -17,7 +17,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+object RemoteDataModule {
 
     @Singleton
     @Provides
@@ -33,6 +33,7 @@ object AppModule {
     fun createApiService(retrofit: Retrofit): AgeByNameApi =
         retrofit.create(AgeByNameApi::class.java)
 
+
     @Singleton
     @Provides
     fun provideRepository(api: AgeByNameApi): AgeByNameRepository =
@@ -42,4 +43,6 @@ object AppModule {
     @Provides
     fun provideUseCase(repository: AgeByNameRepository) =
         GetAgeByName(repository)
+
+
 }
