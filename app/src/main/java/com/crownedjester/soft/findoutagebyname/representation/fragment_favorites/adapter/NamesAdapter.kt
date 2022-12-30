@@ -13,6 +13,8 @@ import com.crownedjester.soft.findoutagebyname.features.model.FavoriteName
 class NamesAdapter(private val adapterCallback: NamesAdapterCallback) :
     RecyclerView.Adapter<NamesAdapter.NamesViewHolder>() {
 
+    private var hasLongClickListener = false
+
     private var isCheckboxesVisible = false
     private var _namesHolderCallback: NamesHolderCallback? = null
     val namesHolderCallback get() = _namesHolderCallback
@@ -55,20 +57,27 @@ class NamesAdapter(private val adapterCallback: NamesAdapterCallback) :
 
                 }
 
+                itemView.apply {
+                    if (!hasLongClickListener) {
+                        setOnLongClickListener {
 
-                itemView.setOnLongClickListener {
+                            hasLongClickListener = true
 
-                    adapterCallback.onLongClickCallback() {
-                        changeCheckboxesVisibility()
+                            adapterCallback.onLongClickCallback() {
+                                changeCheckboxesVisibility()
+                            }
+
+                            true
+                        }
                     }
 
-                    true
-                }
+                    if (!hasOnClickListeners()) {
+                        setOnClickListener {
+                            adapterCallback.onNameClickCallback(name)
+                        }
+                    }
 
-                itemView.setOnClickListener {
-                    adapterCallback.onNameClickCallback(name)
                 }
-
             }
 
         }
