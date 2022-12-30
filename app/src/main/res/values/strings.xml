@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FindOutAgeByName</string>
+    <string name="app_name">A-Age</string>
     <string name="dashboard_hint">Введите имя для предсказания возраста</string>
     <string name="search_bar_hint">Поиск</string>
     <string name="favorite_header">Избранное</string>
