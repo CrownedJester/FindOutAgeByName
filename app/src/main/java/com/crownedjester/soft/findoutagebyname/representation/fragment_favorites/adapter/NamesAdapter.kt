@@ -10,9 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.crownedjester.soft.findoutagebyname.databinding.ItemFavoriteBinding
 import com.crownedjester.soft.findoutagebyname.features.model.FavoriteName
 
-class NamesAdapter : RecyclerView.Adapter<NamesAdapter.NamesViewHolder>() {
+class NamesAdapter(private val adapterCallback: NamesAdapterCallback) :
+    RecyclerView.Adapter<NamesAdapter.NamesViewHolder>() {
 
     private var isCheckboxesVisible = false
+    private var _namesHolderCallback: NamesHolderCallback? = null
+    val namesHolderCallback get() = _namesHolderCallback
 
     private val namesDiffCallback = object : DiffUtil.ItemCallback<FavoriteName>() {
         override fun areItemsTheSame(oldItem: FavoriteName, newItem: FavoriteName): Boolean =
@@ -27,24 +30,51 @@ class NamesAdapter : RecyclerView.Adapter<NamesAdapter.NamesViewHolder>() {
     val differ = AsyncListDiffer(this@NamesAdapter, namesDiffCallback)
 
     inner class NamesViewHolder(private val binding: ItemFavoriteBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root), NamesHolderCallback {
 
         fun bind(name: FavoriteName) {
             binding.apply {
                 textViewName.text = name.name
 
-                checkboxItemFavorite.setOnCheckedChangeListener(null)
+                checkboxItemFavorite.apply {
 
-                checkboxItemFavorite.visibility =
-                    if (isCheckboxesVisible) View.VISIBLE else View.INVISIBLE
+                    setOnCheckedChangeListener(null)
+
+                    isChecked = name.isSelected
+
+                    setOnClickListener {
+                        name.isSelected = isChecked
+                    }
+
+                    if (!isCheckboxesVisible) {
+                        isChecked = false
+                        name.isSelected = false
+                    }
+
+                    visibility = if (isCheckboxesVisible) View.VISIBLE else View.INVISIBLE
+
+                }
+
 
                 itemView.setOnLongClickListener {
-                    changeCheckboxesVisibility()
+
+                    adapterCallback.onLongClickCallback() {
+                        changeCheckboxesVisibility()
+                    }
 
                     true
                 }
+
+                itemView.setOnClickListener {
+                    adapterCallback.onNameClickCallback(name)
+                }
+
             }
 
+        }
+
+        override fun performAdapterLongClick() {
+            itemView.performLongClick()
         }
 
     }
@@ -61,6 +91,10 @@ class NamesAdapter : RecyclerView.Adapter<NamesAdapter.NamesViewHolder>() {
 
     override fun onBindViewHolder(holder: NamesViewHolder, position: Int) {
         val name = differ.currentList[position]
+
+        if (_namesHolderCallback == null) {
+            _namesHolderCallback = holder
+        }
 
         holder.bind(name)
     }

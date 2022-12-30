@@ -15,4 +15,6 @@
     <string name="dialog_cancel_text">Нет</string>
     <string name="no">Нет</string>
     <string name="toast_on_delete">Записи успешно удалены!</string>
+    <string name="empty_search_query_message">Пуле ввода не может быть пустым!</string>
+    <string name="on_add_favorite_message">Имя успешно добавлено в избранное!</string>
 </resources>
