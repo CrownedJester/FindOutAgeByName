@@ -13,10 +13,10 @@ import com.crownedjester.soft.findoutagebyname.databinding.FragmentDashboardBind
 import com.crownedjester.soft.findoutagebyname.representation.fragment_dashboard.viewmodel.DashboardEvent
 import com.crownedjester.soft.findoutagebyname.representation.fragment_dashboard.viewmodel.DashboardViewModel
 import com.crownedjester.soft.findoutagebyname.representation.shared_components.MainEventHandlerViewModel
+import com.crownedjester.soft.findoutagebyname.representation.shared_components.UiEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val visible = View.VISIBLE
-private const val invisible = View.INVISIBLE
 private const val gone = View.GONE
 
 private const val TAG = "DashboardFragment"
@@ -37,14 +37,10 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
         onQuerySubmitted()
 
-
         binding.apply {
-
 
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-
-                    //implement toast shown when search view is empty
 
                     dashboardViewModel.onEvent(
                         DashboardEvent.OnSubmitSearchQuery(query.toString())
@@ -53,7 +49,20 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                     return false
                 }
 
-                override fun onQueryTextChange(newText: String?): Boolean = false
+                override fun onQueryTextChange(newText: String?): Boolean {
+
+                    // небольшой костыль :D
+                    if (newText.isNullOrEmpty()) {
+                        mainEventHandlerViewModel.sendEvent(
+                            UiEvent.ShowToast(
+                                UiEvent.ShowToast.ToastType.WARNING,
+                                getString(R.string.empty_search_query_message)
+                            )
+                        )
+                    }
+
+                    return false
+                }
 
             })
         }
@@ -65,35 +74,11 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             dashboardViewModel.ageLiveData.observe(viewLifecycleOwner) { uiState ->
                 when {
                     uiState.isLoading -> {
-                        binding.apply {
-                            loadingProgress.visibility = visible
-
-                            buttonAddToFavorite.visibility = gone
-                            buttonShare.visibility = gone
-
-                            textViewResult.visibility = gone
-                            textViewHint.visibility = gone
-                        }
+                        toLoadingState()
                     }
 
                     uiState.data != null -> {
-                        binding.apply {
-                            loadingProgress.visibility = gone
-
-                            buttonAddToFavorite.visibility = visible
-                            buttonShare.visibility = visible
-
-                            textViewHint.visibility = gone
-                            textViewResult.visibility = visible
-
-                            textViewResult.text = uiState.data.age.toString()
-
-                            buttonAddToFavorite.setOnClickListener {
-                                dashboardViewModel.onEvent(
-                                    DashboardEvent.OnAddToFavorite(uiState.data)
-                                )
-                            }
-                        }
+                        toDataLoadedState(uiState)
                     }
 
                     uiState.message.isNotBlank() -> {
@@ -102,6 +87,61 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
                 }
             }
+        }
+    }
+
+
+    @Suppress("Unused")
+    private fun toDefaultFragmentState() {
+        //todo not used
+        binding.apply {
+            loadingProgress.visibility = gone
+
+            buttonAddToFavorite.visibility = gone
+            buttonShare.visibility = gone
+
+            textViewResult.visibility = gone
+            textViewHint.visibility = visible
+        }
+    }
+
+    private fun toLoadingState() {
+        binding.apply {
+            loadingProgress.visibility = visible
+
+            buttonAddToFavorite.visibility = gone
+            buttonShare.visibility = gone
+
+            textViewResult.visibility = gone
+            textViewHint.visibility = gone
+        }
+    }
+
+    private fun toDataLoadedState(uiState: UiState) {
+        binding.apply {
+            loadingProgress.visibility = gone
+
+            buttonAddToFavorite.visibility = visible
+            buttonShare.visibility = visible
+
+            textViewHint.visibility = gone
+            textViewResult.visibility = visible
+
+            textViewResult.text = uiState.data!!.age.toString()
+
+            buttonAddToFavorite.setOnClickListener {
+                dashboardViewModel.onEvent(
+                    DashboardEvent.OnAddToFavorite(uiState.data)
+                )
+                mainEventHandlerViewModel.sendEvent(
+                    UiEvent.ShowToast(
+                        UiEvent.ShowToast.ToastType.SUCCESS,
+                        getString(R.string.on_add_favorite_message)
+                    )
+                )
+            }
+
+            searchView.setQuery(uiState.data.name, false)
         }
     }
 
