@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_marginBottom="10dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_view_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/shape_text_view_bg"
+        android:fontFamily="@font/rubik_medium_500"
+        android:gravity="center_vertical|start"
+        android:padding="16dp"
+        android:text="Анастасия"
+        android:textColor="@color/rhythm"
+        android:textSize="@dimen/regular_text_font_size"
+        tools:ignore="HardcodedText" />
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/checkbox_item_favorite"
+        style="@style/CheckboxFavorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|end"
+        android:checked="false"
+        android:elevation="1dp"
+        android:gravity="center|start" />
+
+</FrameLayout>

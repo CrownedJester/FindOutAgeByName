@@ -1,3 +1,21 @@
 <resources>
-    <string name="app_name">FindOutAgeByName</string>
+    <string name="app_name">A-Age</string>
+    <string name="dashboard_hint">Введите имя для предсказания возраста</string>
+    <string name="search_bar_hint">Поиск</string>
+    <string name="favorite_header">Избранное</string>
+    <string name="share_btn_text">Добавить в избранное</string>
+    <string name="button_share_description">Поделиться результатом</string>
+    <string name="dialog_header_text">Удалить имя</string>
+    <string name="deletion_button_text">Удалить</string>
+    <string name="dialog_message">Вы уверены, что хотите удалить выбранное имя из избранных?</string>
+    <string name="toast_empty_search_query">Поле ввода не может быть пустым!</string>
+    <string name="nav_home_item_text">Главная</string>
+    <string name="nav_favorite_item_text">Избранное</string>
+    <string name="dialog_confirm_text">Да</string>
+    <string name="dialog_cancel_text">Нет</string>
+    <string name="no">Нет</string>
+    <string name="toast_on_delete">Записи успешно удалены!</string>
+    <string name="empty_search_query_message">Пуле ввода не может быть пустым!</string>
+    <string name="on_add_favorite_message">Имя успешно добавлено в избранное!</string>
+    <string name="toast_get_data_error_message">Произошла ошибка, проверьте подключение к интернету!</string>
 </resources>

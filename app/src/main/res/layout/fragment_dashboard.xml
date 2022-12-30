@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/shape_search_bar_bg"
+        android:elevation="1dp"
+        app:iconifiedByDefault="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:queryBackground="@null"
+        app:queryHint="@string/search_bar_hint" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_view_hint"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginHorizontal="16dp"
+        android:background="@drawable/shape_search_bar_bg"
+        android:gravity="center"
+        android:text="@string/dashboard_hint"
+        android:textSize="20sp"
+        app:fontFamily="@font/rubik_regular_400"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_view_result"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="54dp"
+        android:background="@drawable/background_text_view_result"
+        android:elevation="1dp"
+        android:gravity="center"
+        android:text="41"
+        android:textColor="@color/tv_result_text"
+        android:textSize="50sp"
+        android:visibility="invisible"
+        app:fontFamily="@font/rubik_light_300"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_view"
+        tools:ignore="HardcodedText"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_add_to_favorite"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/height_action_button"
+        android:layout_marginHorizontal="@dimen/margin_action_button"
+        android:layout_marginBottom="@dimen/margin_bottom_action_button"
+        android:background="@drawable/shape_button_result"
+        android:fontFamily="@font/abhayalibre_bold_700"
+        android:paddingHorizontal="@dimen/padding_horizontal_action_button"
+        android:paddingVertical="@dimen/padding_vertical_action_button"
+        android:text="@string/share_btn_text"
+        android:textAllCaps="false"
+        android:textSize="@dimen/button_text_size"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/button_share"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/button_share"
+        android:layout_width="65dp"
+        android:layout_height="@dimen/height_action_button"
+        android:layout_marginEnd="@dimen/margin_action_button"
+        android:background="@drawable/shape_button_result"
+        android:contentDescription="@string/button_share_description"
+        android:paddingHorizontal="@dimen/padding_horizontal_action_button"
+        android:paddingVertical="@dimen/padding_vertical_action_button"
+        android:src="@drawable/ic_share"
+        android:tint="@color/gunmetal"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/button_add_to_favorite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/button_add_to_favorite"
+        tools:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/loading_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/ProgressTheme"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
