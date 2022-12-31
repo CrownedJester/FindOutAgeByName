@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainEventHandlerViewModel @Inject constructor() : ViewModel() {
+class UiEventsHandlerViewModel @Inject constructor() : ViewModel() {
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent get() = _uiEvent.receiveAsFlow()

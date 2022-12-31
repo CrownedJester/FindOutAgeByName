@@ -2,7 +2,6 @@ package com.crownedjester.soft.findoutagebyname.representation
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -12,8 +11,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.crownedjester.soft.findoutagebyname.R
-import com.crownedjester.soft.findoutagebyname.representation.shared_components.MainEventHandlerViewModel
 import com.crownedjester.soft.findoutagebyname.representation.shared_components.UiEvent
+import com.crownedjester.soft.findoutagebyname.representation.shared_components.UiEventsHandlerViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import es.dmoral.toasty.Toasty
@@ -25,7 +24,7 @@ private const val TAG = "MainActivity_Log"
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val eventHandlerViewModel by viewModels<MainEventHandlerViewModel>()
+    private val uiEventHandlerViewModel by viewModels<UiEventsHandlerViewModel>()
     private var navController by Delegates.notNull<NavController>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             whenStarted {
-                eventHandlerViewModel.uiEvent.collect { uiEvent ->
+                uiEventHandlerViewModel.uiEvent.collect { uiEvent ->
                     handleUiEvents(uiEvent)
                 }
             }
@@ -52,16 +51,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    @Deprecated(
-        "Deprecated in Java",
-        ReplaceWith("super.onBackPressed()", "androidx.appcompat.app.AppCompatActivity")
-    )
-    @Suppress("Deprecation")
-    override fun onBackPressed() {
-        super.onBackPressed()
-
-
-    }
 
     private fun handleUiEvents(uiEvent: UiEvent) {
         when (uiEvent) {
@@ -79,7 +68,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             is UiEvent.ShowToast -> {
-                showToast(uiEvent.type, uiEvent.message)
+                val (type, message, duration) = uiEvent
+                showToast(type, message, duration)
                 Log.d(TAG, "ShowToast event Handled")
             }
         }
@@ -98,22 +88,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showToast(type: UiEvent.ShowToast.ToastType, message: String) {
+    private fun showToast(type: UiEvent.ShowToast.ToastType, message: String, duration: Int) {
         when (type) {
             UiEvent.ShowToast.ToastType.ERROR ->
-                Toasty.error(applicationContext, message, Toast.LENGTH_LONG).show()
+                Toasty.error(this@MainActivity, message, duration).show()
 
             UiEvent.ShowToast.ToastType.INFO ->
-                Toasty.info(this@MainActivity, message, Toast.LENGTH_LONG).show()
+                Toasty.info(this@MainActivity, message, duration).show()
 
             UiEvent.ShowToast.ToastType.NORMAL ->
-                Toasty.normal(this@MainActivity, message, Toast.LENGTH_LONG).show()
+                Toasty.normal(this@MainActivity, message, duration).show()
 
             UiEvent.ShowToast.ToastType.SUCCESS ->
-                Toasty.success(applicationContext, message, Toast.LENGTH_LONG).show()
+                Toasty.success(this@MainActivity, message, duration).show()
 
             UiEvent.ShowToast.ToastType.WARNING ->
-                Toasty.warning(this@MainActivity, message, Toast.LENGTH_LONG).show()
+                Toasty.warning(this@MainActivity, message, duration).show()
         }
     }
 
