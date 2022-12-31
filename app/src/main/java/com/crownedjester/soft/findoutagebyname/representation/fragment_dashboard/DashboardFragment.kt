@@ -1,9 +1,12 @@
 package com.crownedjester.soft.findoutagebyname.representation.fragment_dashboard
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -14,9 +17,12 @@ import com.crownedjester.soft.findoutagebyname.databinding.FragmentDashboardBind
 import com.crownedjester.soft.findoutagebyname.domain.model.PersonData
 import com.crownedjester.soft.findoutagebyname.representation.fragment_dashboard.viewmodel.DashboardEvent
 import com.crownedjester.soft.findoutagebyname.representation.fragment_dashboard.viewmodel.DashboardViewModel
-import com.crownedjester.soft.findoutagebyname.representation.shared_components.MainEventHandlerViewModel
 import com.crownedjester.soft.findoutagebyname.representation.shared_components.UiEvent
+import com.crownedjester.soft.findoutagebyname.representation.shared_components.UiEventsHandlerViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.system.exitProcess
 
 private const val visible = View.VISIBLE
 private const val gone = View.GONE
@@ -30,7 +36,16 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     private val binding get() = _binding!!
 
     private val dashboardViewModel by viewModels<DashboardViewModel>()
-    private val mainEventHandlerViewModel by activityViewModels<MainEventHandlerViewModel>()
+    private val uiEventsHandlerViewModel by activityViewModels<UiEventsHandlerViewModel>()
+
+    private var backPressCallCount = 0
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        setupBackPressedCallback()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,9 +68,9 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
                 override fun onQueryTextChange(newText: String?): Boolean {
 
-                    // небольшой полудохлый недокостыль :D
+                    // todo fix somehow
                     if (newText.isNullOrEmpty()) {
-                        mainEventHandlerViewModel.sendEvent(
+                        uiEventsHandlerViewModel.sendEvent(
                             UiEvent.ShowToast(
                                 UiEvent.ShowToast.ToastType.WARNING,
                                 getString(R.string.empty_search_query_message)
@@ -84,7 +99,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                     }
 
                     uiState.message.isNotBlank() -> {
-                        mainEventHandlerViewModel.sendEvent(
+                        uiEventsHandlerViewModel.sendEvent(
                             UiEvent.ShowToast(
                                 UiEvent.ShowToast.ToastType.ERROR,
                                 getString(R.string.toast_get_data_error_message)
@@ -102,7 +117,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     @Suppress("Unused")
     private fun toDefaultFragmentState() {
-        //todo not used
+        //todo not used yet
         binding.apply {
             loadingProgress.visibility = gone
 
@@ -145,7 +160,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 dashboardViewModel.onEvent(
                     DashboardEvent.OnAddToFavorite(uiState.data)
                 )
-                mainEventHandlerViewModel.sendEvent(
+                uiEventsHandlerViewModel.sendEvent(
                     UiEvent.ShowToast(
                         UiEvent.ShowToast.ToastType.SUCCESS,
                         getString(R.string.on_add_favorite_message)
@@ -187,6 +202,39 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         requireContext().startActivity(shareIntent)
 
     }
+
+    private fun setupBackPressedCallback() {
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+
+                backPressCallCount++
+
+                lifecycleScope.launch {
+                    delay(1500L)
+                    backPressCallCount = 0
+                }
+
+                if (backPressCallCount < 2) {
+                    uiEventsHandlerViewModel.sendEvent(
+                        UiEvent.ShowToast(
+                            UiEvent.ShowToast.ToastType.INFO,
+                            getString(R.string.info_on_back_pressed),
+                            Toast.LENGTH_SHORT
+                        )
+                    )
+
+                } else {
+                    requireActivity().finish()
+                    exitProcess(0)
+                }
+            }
+
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

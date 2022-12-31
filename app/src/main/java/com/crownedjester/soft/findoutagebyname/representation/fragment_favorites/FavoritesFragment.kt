@@ -16,7 +16,7 @@ import com.crownedjester.soft.findoutagebyname.representation.fragment_favorites
 import com.crownedjester.soft.findoutagebyname.representation.fragment_favorites.dialog.DeletionConfirmationDialog
 import com.crownedjester.soft.findoutagebyname.representation.fragment_favorites.dialog.DeletionDialogCallback
 import com.crownedjester.soft.findoutagebyname.representation.fragment_favorites.viewmodel.FavoritesViewModel
-import com.crownedjester.soft.findoutagebyname.representation.shared_components.MainEventHandlerViewModel
+import com.crownedjester.soft.findoutagebyname.representation.shared_components.UiEventsHandlerViewModel
 import com.crownedjester.soft.findoutagebyname.representation.shared_components.UiEvent
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,7 +31,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorite), NamesAdapterCall
     private val binding get() = _binding!!
 
     private val favoritesViewModel by viewModels<FavoritesViewModel>()
-    private val mainEventHandlerViewModel by activityViewModels<MainEventHandlerViewModel>()
+    private val uiEventsHandlerViewModel by activityViewModels<UiEventsHandlerViewModel>()
 
     private val namesAdapter = NamesAdapter(this)
 
@@ -57,10 +57,20 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorite), NamesAdapterCall
             }
 
             buttonDeleteFavorite.setOnClickListener {
-                dialog.show(
-                    childFragmentManager,
-                    DeletionConfirmationDialog::class.simpleName
-                )
+                val count = namesAdapter.differ.currentList.count { it.isSelected }
+                if (count > 0) {
+                    dialog.show(
+                        childFragmentManager,
+                        DeletionConfirmationDialog::class.simpleName
+                    )
+                } else {
+                    uiEventsHandlerViewModel.sendEvent(
+                        UiEvent.ShowToast(
+                            UiEvent.ShowToast.ToastType.WARNING,
+                            getString(R.string.warning_on_nothing_delete)
+                        )
+                    )
+                }
             }
         }
 
@@ -85,7 +95,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorite), NamesAdapterCall
     }
 
     override fun onNameClickCallback(name: FavoriteName) {
-        mainEventHandlerViewModel.sendEvent(
+        uiEventsHandlerViewModel.sendEvent(
             UiEvent.OnNavigate(
                 R.id.action_favoritesFragment_to_dashboardFragment,
                 BundlePrefs.NAME_KEY,
@@ -105,7 +115,8 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorite), NamesAdapterCall
 
     override fun onConfirm() {
         deleteSelected()
-        mainEventHandlerViewModel.sendEvent(
+
+        uiEventsHandlerViewModel.sendEvent(
             UiEvent.ShowToast(
                 type = UiEvent.ShowToast.ToastType.SUCCESS,
                 message = getString(R.string.toast_on_delete)
